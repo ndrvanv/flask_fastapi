@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Студенты</title>
+</head>
+<body>
+<table>
+  <tr>
+    <th>{{firstname}}</th>
+    <th>{{lastname}}</th>
+    <th>{{age}}</th>
+    <th>{{rating}}</th>
+  </tr>
+    {% for student in students_list%}
+    <tr>
+    <th>{{student.firstname}}</th>
+    <th>{{student.lastname}}</th>
+    <th>{{student.age}}</th>
+    <th>{{student.rating}}</th>
+    </tr>
+    {%endfor%}
+</table>
+</body>
+</html>
