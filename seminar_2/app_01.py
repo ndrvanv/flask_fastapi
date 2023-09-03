@@ -217,7 +217,8 @@ def cookies():
         response.set_cookie(name, "User")
         return response
     context = {'title': 'cookies'}
-    return render_template('cookies.html', **context)
+    return render_template('cookies.html', **context) 
+    # Ошибка при запуске 
 
 @app.route('/delete_cookies', methods=['GET', 'POST'])
 def delete_cookies():
