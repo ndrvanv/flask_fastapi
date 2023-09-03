@@ -1,6 +1,7 @@
 from pathlib import PurePath, Path
 
-from flask import Flask, render_template, request, abort, url_for, redirect, flash
+
+from flask import Flask, render_template, request, abort, url_for, redirect, flash, make_response
 from werkzeug.utils import secure_filename
 from markupsafe import escape
 
@@ -56,6 +57,18 @@ from markupsafe import escape
 # При нажатии на кнопку будет произведено
 # перенаправление на страницу с flash сообщением, где будет
 # выведено "Привет, {имя}!".
+
+# task_9
+# Создать страницу, на которой будет форма для ввода имени
+# и электронной почты
+# При отправке которой будет создан cookie файл с данными
+# пользователя
+# Также будет произведено перенаправление на страницу
+# приветствия, где будет отображаться имя пользователя.
+# На странице приветствия должна быть кнопка "Выйти"
+# При нажатии на кнопку будет удален cookie файл с данными
+# пользователя и произведено перенаправление на страницу
+# ввода имени и электронной почты.
 
 
 app = Flask(__name__)
@@ -191,6 +204,28 @@ def form():
         flash('Форма успешно отправлена!', 'success')
         return redirect(url_for('form'))
     return render_template('form.html')
+
+@app.route('/cookies', methods=['GET', 'POST'])
+def cookies():
+    if request.method == 'POST':
+        context = {
+            'title':'main',
+            'name':request.form.get('login')
+        }
+        name = request.form.get('login')
+        response = make_response(render_template('index.html', **context))
+        response.set_cookie(name, "User")
+        return response
+    context = {'title': 'cookies'}
+    return render_template('cookies.html', **context)
+
+@app.route('/delete_cookies', methods=['GET', 'POST'])
+def delete_cookies():
+    context = {'title': 'cookies'}
+    response = make_response(render_template('index.html', **context))
+    response.set_cookie(*request.cookies, expires=0)
+    return response
+
 
 if __name__ == "__main__":
     app.run(debug=True)
