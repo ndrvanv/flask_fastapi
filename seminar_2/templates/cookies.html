@@ -3,7 +3,7 @@
 {{ title }}
 {% endblock %}
 {% block content %}
-<form action="{{url_for('set_cookie')}}" method="post">
+<form action="{{url_for('cookies')}}" method="post">
     <input type="text" name="username" placeholder="Имя">
     <input type="email" name="email" placeholder="Почта">
     <input type="submit" value="Отправить">

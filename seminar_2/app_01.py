@@ -210,9 +210,9 @@ def cookies():
     if request.method == 'POST':
         context = {
             'title':'main',
-            'name':request.form.get('login')
+            'name':request.form.get('username')
         }
-        name = request.form.get('login')
+        name = request.form.get('username')
         response = make_response(render_template('index.html', **context))
         response.set_cookie(name, "User")
         return response
