@@ -1,10 +1,7 @@
-import random
-
 from flask import Flask, render_template, request
 from flask_wtf import CSRFProtect
-
 from models import db, Users
-from seminar_3.task_3.forms import RegisterForm
+from forms import RegisterForm
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
@@ -16,6 +13,7 @@ csrf = CSRFProtect(app)
 def init_db():
     db.create_all()
     print('OK')
+
 
 
 @app.route('/register/', methods=['GET', 'POST'])
