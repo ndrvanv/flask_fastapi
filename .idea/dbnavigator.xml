@@ -12,8 +12,8 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="19bec50c-3ae9-47d6-b639-d39ff882fa0d">
-      <console name="Connection8" type="STANDARD" schema="" session="Main" />
+    <connection id="1490f068-bf48-4e8d-b13e-3cb2c49647a1">
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -49,9 +49,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="19bec50c-3ae9-47d6-b639-d39ff882fa0d" active="true" signed="true">
+      <connection id="1490f068-bf48-4e8d-b13e-3cb2c49647a1" active="true" signed="true">
         <database>
-          <name value="Connection8" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
