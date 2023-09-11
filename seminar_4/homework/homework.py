@@ -18,15 +18,15 @@ import os
 # � Программа должна выводить в консоль информацию о времени скачивания
 # каждого изображения и общем времени выполнения программы.
 
-# urls = ['https://gb.ru/',
-# 'https://www.python.org/',
-# 'https://habr.com/ru/all/',
-# 'https://hh.ru/',
-# 'https://youtube.com',
-# 'https://gb.ru',
-# 'https://avito.ru',
-# 'https://tesla.com'
-# ]
+urls = ['https://gb.ru/',
+'https://www.python.org/',
+'https://habr.com/ru/all/',
+'https://hh.ru/',
+'https://youtube.com',
+'https://gb.ru',
+'https://avito.ru',
+'https://tesla.com'
+]
 
 
 image_urls = []
@@ -41,7 +41,7 @@ def download_images(url):
     start_time = time.time()
     response = requests.get(url, stream=True)
     filename = image_path.joinpath(os.path.basename(url))
-    with open(filename, 'ut') as f:
+    with open(filename, 'wb') as f:
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
@@ -52,7 +52,7 @@ async def download_image_async(url):
     start_time = time.time()
     response = await asyncio.get_event_loop().run_in_executor(None, requests.get, url, {'stream':True})
     filename = image_path.joinpath(os.path.basename(url))
-    with open(filename, 'ut') as f:
+    with open(filename, 'wb') as f:
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
@@ -102,7 +102,7 @@ async def download_images_async(urls):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Save images to the disk')
-    parser.add_argument("--urls", nargs="+", help="A list of URLs to download images from.")
+    parser.add_argument("--urls", default=urls, nargs="+", help="A list of URLs to download images from.")
     args = parser.parse_args()
 
     urls = args.urls
