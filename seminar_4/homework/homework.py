@@ -6,6 +6,7 @@ import argparse
 import multiprocessing
 import asyncio
 import os
+
 # Написать программу, которая скачивает изображения с заданных URL-адресов и
 # сохраняет их на диск. Каждое изображение должно сохраняться в отдельном
 # файле, название которого соответствует названию изображения в URL-адресе.
@@ -18,46 +19,52 @@ import os
 # � Программа должна выводить в консоль информацию о времени скачивания
 # каждого изображения и общем времени выполнения программы.
 
-urls = ['https://gb.ru/',
-'https://www.python.org/',
-'https://habr.com/ru/all/',
-'https://hh.ru/',
-'https://youtube.com',
-'https://gb.ru',
-'https://avito.ru',
-'https://tesla.com'
+urls = [
+    "https://gb.ru/",
+    "https://www.python.org/",
+    "https://habr.com/ru/all/",
+    "https://hh.ru/",
+    "https://youtube.com",
+    "https://gb.ru",
+    "https://avito.ru",
+    "https://tesla.com",
 ]
 
 
 image_urls = []
-with open('images_youtube_com.html', 'r') as images:
+with open("images_youtube_com.html", "r") as images:
     for image in images.readline():
         image_urls.append(image.strip())
 
-image_path = Path('./images')
+image_path = Path("./images")
+
 
 def download_images(url):
     global image_path
     start_time = time.time()
     response = requests.get(url, stream=True)
     filename = image_path.joinpath(os.path.basename(url))
-    with open(filename, 'wb') as f:
+    with open(filename, "wb") as f:
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
     end_time = time.time() - start_time
-    print(f'Download {filename} in {end_time:.2f} seconds')
+    print(f"Download {filename} in {end_time:.2f} seconds")
+
 
 async def download_image_async(url):
     start_time = time.time()
-    response = await asyncio.get_event_loop().run_in_executor(None, requests.get, url, {'stream':True})
+    response = await asyncio.get_event_loop().run_in_executor(
+        None, requests.get, url, {"stream": True}
+    )
     filename = image_path.joinpath(os.path.basename(url))
-    with open(filename, 'wb') as f:
+    with open(filename, "wb") as f:
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
     end_time = time.time() - start_time
-    print(f'Download {filename} in {end_time:.2f} seconds')
+    print(f"Download {filename} in {end_time:.2f} seconds")
+
 
 def downloading_images_threading(url):
     start_time = time.time()
@@ -71,7 +78,8 @@ def downloading_images_threading(url):
         t.join()
 
     end_time = time.time() - start_time
-    print(f'Total time using threading in {end_time:.2f} seconds')
+    print(f"Total time using threading in {end_time:.2f} seconds")
+
 
 def download_images_multiprocessing(urls):
     start_time = time.time()
@@ -87,6 +95,7 @@ def download_images_multiprocessing(urls):
     end_time = time.time() - start_time
     print(f"Total time using multiprocessing: {end_time:.2f} seconds")
 
+
 async def download_images_async(urls):
     start_time = time.time()
     tasks = []
@@ -94,15 +103,20 @@ async def download_images_async(urls):
         task = asyncio.ensure_future(download_image_async(url))
         tasks.append(task)
 
-
     await asyncio.gather(*tasks)
 
     end_time = time.time() - start_time
     print(f"Total time using asyncio: {end_time:.2f} seconds")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Save images to the disk')
-    parser.add_argument("--urls", default=urls, nargs="+", help="A list of URLs to download images from.")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Save images to the disk")
+    parser.add_argument(
+        "--urls",
+        default=urls,
+        nargs="+",
+        help="A list of URLs to download images from.",
+    )
     args = parser.parse_args()
 
     urls = args.urls
@@ -118,4 +132,3 @@ if __name__ == '__main__':
     print(f"\nDownloading {len(urls)} images using asyncio...")
     loop = asyncio.get_event_loop()
     loop.run_until_complete(download_images_async(urls))
-

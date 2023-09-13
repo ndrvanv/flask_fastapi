@@ -4,8 +4,14 @@ from wtforms.validators import DataRequired, Email
 
 
 class RegisterForm(FlaskForm):
-    username = StringField('Имя', validators=[DataRequired()])
-    email = StringField('Почта', validators=[DataRequired(), Email()])
-    password = PasswordField('Пароль', validators=[validators.DataRequired()])
-    confirm_password = PasswordField('Подтверждение пароля', validators=[validators.DataRequired(), validators.EqualTo('password', message='Пароли должны совпадать')])
+    username = StringField("Имя", validators=[DataRequired()])
+    email = StringField("Почта", validators=[DataRequired(), Email()])
+    password = PasswordField("Пароль", validators=[validators.DataRequired()])
+    confirm_password = PasswordField(
+        "Подтверждение пароля",
+        validators=[
+            validators.DataRequired(),
+            validators.EqualTo("password", message="Пароли должны совпадать"),
+        ],
+    )
     submit = SubmitField("Зарегестрироваться")

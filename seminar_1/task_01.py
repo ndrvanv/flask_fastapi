@@ -5,7 +5,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route("/")
 def hello():
     return "Hello world!"
 
@@ -35,67 +35,43 @@ def first():
     return render_template("index.html")
 
 
-@app.route('/students/')
+@app.route("/students/")
 def students():
     head = {
-        'firstname': "Имя",
+        "firstname": "Имя",
         "lastname": "Фамилия",
-        'age': 'Возраст',
-        'rating': 'Средний балл'
-
+        "age": "Возраст",
+        "rating": "Средний балл",
     }
     students_list = [
-        {
-            'firstname': "Иван",
-            "lastname": "Иванов",
-            'age': 25,
-            'rating': 4.5
-        },
-
-        {
-
-            'firstname': "Антон",
-            "lastname": "Антовнов",
-            'age': 23,
-            'rating': 5
-
-        },
-
-        {
-            'firstname': "Василий",
-            "lastname": "Васильев",
-            'age': 20,
-            'rating': 4
-        }
+        {"firstname": "Иван", "lastname": "Иванов", "age": 25, "rating": 4.5},
+        {"firstname": "Антон", "lastname": "Антовнов", "age": 23, "rating": 5},
+        {"firstname": "Василий", "lastname": "Васильев", "age": 20, "rating": 4},
     ]
-    return render_template('students.html', **head, students_list=students_list)
+    return render_template("students.html", **head, students_list=students_list)
 
 
 @app.route("/news/")
 def news():
     block_news = [
         {
-            'title': "новость_1",
+            "title": "новость_1",
             "description": "описание_1",
-            'created_at': datetime.now().strftime("%H:%M - %m.%d.%Y года"),
+            "created_at": datetime.now().strftime("%H:%M - %m.%d.%Y года"),
         },
-
         {
-
-            'title': "новость_2",
+            "title": "новость_2",
             "description": "описание_2",
-            'created_at': datetime.now().strftime("%H:%M - %m.%d.%Y года"),
-
+            "created_at": datetime.now().strftime("%H:%M - %m.%d.%Y года"),
         },
-
         {
-            'title': "новость_3",
+            "title": "новость_3",
             "description": "описание_3",
-            'created_at': datetime.now().strftime("%H:%M - %m.%d.%Y года"),
-        }
+            "created_at": datetime.now().strftime("%H:%M - %m.%d.%Y года"),
+        },
     ]
 
-    return render_template('news.html', block_news=block_news)
+    return render_template("news.html", block_news=block_news)
 
 
 if __name__ == "__main__":

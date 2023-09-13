@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 # указанием их авторов.
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
 db = SQLAlchemy(app)
 
 
@@ -21,11 +21,13 @@ class Books(db.Model):
     name = db.Column(db.String(100), nullable=False)
     realized_year = db.Column(db.Integer, nullable=False)
     copies = db.Column(db.Integer, nullable=False)
-    id_author = db.Column(db.Integer, db.ForeignKey('authors.id'))
-    authors = db.relationship('Authors', secondary='book_author', backref='books', lazy=True)
+    id_author = db.Column(db.Integer, db.ForeignKey("authors.id"))
+    authors = db.relationship(
+        "Authors", secondary="book_author", backref="books", lazy=True
+    )
 
     def __repr__(self):
-        return f'Books({self.name} {self.realized_year} {self.copies} )'
+        return f"Books({self.name} {self.realized_year} {self.copies} )"
 
 
 class Authors(db.Model):
@@ -37,10 +39,10 @@ class Authors(db.Model):
     # books = db.relationship("Books", backref='author', lazy=True)
 
     def __repr__(self):
-        return f'Author({self.firstname}, {self.lastname})'
+        return f"Author({self.firstname}, {self.lastname})"
 
 
 class BookAuthor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_book = db.Column(db.Integer, db.ForeignKey('books.id'))
-    id_author = db.Column(db.Integer, db.ForeignKey('authors.id'))
+    id_book = db.Column(db.Integer, db.ForeignKey("books.id"))
+    id_author = db.Column(db.Integer, db.ForeignKey("authors.id"))

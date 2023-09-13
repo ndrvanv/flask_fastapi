@@ -8,9 +8,10 @@ from flask_sqlalchemy import SQLAlchemy
 # данных, а пароль должен быть зашифрован.
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+app.config["SECRET_KEY"] = "your_secret_key"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///mydatabase.db"
 db = SQLAlchemy(app)
+
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,4 +20,4 @@ class Users(db.Model):
     password = db.Column(db.String(80), nullable=False)
 
     def __repr__(self):
-        return f'<User {self.email} >'
+        return f"<User {self.email} >"

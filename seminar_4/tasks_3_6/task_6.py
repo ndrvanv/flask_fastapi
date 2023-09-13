@@ -1,5 +1,6 @@
 import os
 import asyncio
+
 # Создать программу, которая будет производить подсчет
 # количества слов в каждом файле в указанной директории и
 # выводить результаты в консоль.
@@ -7,11 +8,13 @@ import asyncio
 
 counter = 0
 PATH = "files"
+
+
 async def get_amount_word(file_path):
     global counter
-    with open(file_path, encoding='utf-8') as f:
+    with open(file_path, encoding="utf-8") as f:
         counter = len(f.read().split())
-    print(f'Значение счетчика: {counter:_}')
+    print(f"Значение счетчика: {counter:_}")
 
 
 async def main():
@@ -22,6 +25,7 @@ async def main():
             tasks.append(asyncio.create_task(get_amount_word(file_path)))
     await asyncio.gather(*tasks)
 
-if __name__ =='__main__':
+
+if __name__ == "__main__":
     asyncio.run(main())
-    print(f'Финальное значение слов: {counter}')
+    print(f"Финальное значение слов: {counter}")

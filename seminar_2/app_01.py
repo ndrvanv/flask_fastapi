@@ -1,7 +1,16 @@
 from pathlib import PurePath, Path
 
 
-from flask import Flask, render_template, request, abort, url_for, redirect, flash, make_response
+from flask import (
+    Flask,
+    render_template,
+    request,
+    abort,
+    url_for,
+    redirect,
+    flash,
+    make_response,
+)
 from werkzeug.utils import secure_filename
 from markupsafe import escape
 
@@ -74,70 +83,60 @@ from markupsafe import escape
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route("/")
 def base():
     return render_template("base.html")
 
 
-app.secret_key = b'5f214cacbd30c2ae4784b520f17912ae0d5d8c16ae98128e3f549546221265e4'
+app.secret_key = b"5f214cacbd30c2ae4784b520f17912ae0d5d8c16ae98128e3f549546221265e4"
 
 
-@app.route('/next')
+@app.route("/next")
 def tap_me():
     return "Привет Вася"
 
 
-@app.route('/upload/', methods=['GET', 'POST'])
+@app.route("/upload/", methods=["GET", "POST"])
 def upload():
-    if request.method == 'POST':
-        file = request.files.get('file')
+    if request.method == "POST":
+        file = request.files.get("file")
         file_name = secure_filename(file.filename)
-        file.save(PurePath.joinpath(Path.cwd(), 'uploads',
-                                    file_name))
+        file.save(PurePath.joinpath(Path.cwd(), "uploads", file_name))
         return f"Файл {escape(file_name)} загружен на сервер"
-    context = {
-        'task': 'Задание_2'
-    }
-    return render_template('page_1.html', **context)
+    context = {"task": "Задание_2"}
+    return render_template("page_1.html", **context)
 
 
-@app.route('/authorization/', methods=['GET', 'POST'])
+@app.route("/authorization/", methods=["GET", "POST"])
 def authorization():
-    if request.method == 'POST':
-        login = {
-            "auth_email": "qwe@ya.ru",
-            "auth_pass": "123"
-        }
-        auth_email = request.form.get('auth_email')
-        auth_pass = request.form.get('auth_pass')
+    if request.method == "POST":
+        login = {"auth_email": "qwe@ya.ru", "auth_pass": "123"}
+        auth_email = request.form.get("auth_email")
+        auth_pass = request.form.get("auth_pass")
         if auth_email == login["auth_email"] and auth_pass == login["auth_pass"]:
             return f"Вход из почты: {escape(auth_email)} выполнен успешно"
         else:
-            return f'Ошибка входа с почтой {auth_email}'
-    context = {
-        'task': 'Задание_2'
-    }
+            return f"Ошибка входа с почтой {auth_email}"
+    context = {"task": "Задание_2"}
 
     return render_template("authorization.html", **context)
 
 
-@app.route('/counter/', methods=['GET', 'POST'])
+@app.route("/counter/", methods=["GET", "POST"])
 def counter():
-    if request.method == 'POST':
-        text = request.form.get('text')
+    if request.method == "POST":
+        text = request.form.get("text")
         return f"Количество слов: {escape(len(text.split()))}"
-    context = {
-        'task': 'Задание_4'
-    }
-    return render_template('counter.html', **context)
+    context = {"task": "Задание_4"}
+    return render_template("counter.html", **context)
 
 
-@app.route('/calculate/', methods=['GET', 'POST'])
+@app.route("/calculate/", methods=["GET", "POST"])
 def calculate():
-    if request.method == 'POST':
-        number_1 = request.form.get('number_1')
-        number_2 = request.form.get('number_2')
-        operation = request.form.get('operation')
+    if request.method == "POST":
+        number_1 = request.form.get("number_1")
+        number_2 = request.form.get("number_2")
+        operation = request.form.get("operation")
 
         match operation:
             case "add":
@@ -148,82 +147,77 @@ def calculate():
                 return str(int(number_1) * int(number_2))
             case "divide":
                 if str(int(number_2)) == str(0):
-                    return f'На ноль делить нельзя!'
+                    return f"На ноль делить нельзя!"
                 return str(int(number_1) / int(number_2))
 
-    context = {
-        'task': 'Задание_5'
-    }
-    return render_template('calculate.html', **context)
+    context = {"task": "Задание_5"}
+    return render_template("calculate.html", **context)
 
 
 @app.errorhandler(403)
 def page_not_found(e):
     context = {
-        'title': 'Доступ не разрешен',
-        'url': request.base_url,
+        "title": "Доступ не разрешен",
+        "url": request.base_url,
     }
-    return render_template('403.html', **context), 403
+    return render_template("403.html", **context), 403
 
 
-@app.route('/profile/', methods=['GET', 'POST'])
+@app.route("/profile/", methods=["GET", "POST"])
 def profile():
     MIN_AGE = 18
-    if request.method == 'POST':
-        name = request.form.get('name')
+    if request.method == "POST":
+        name = request.form.get("name")
         age = request.form.get("age")
         if int(age) > MIN_AGE:
-            return f'Ваше имя {name} и ваш возраст {age} лет, вам доступ разрешен'
+            return f"Ваше имя {name} и ваш возраст {age} лет, вам доступ разрешен"
 
         abort(403)
-    context = {
-        'task': 'Задание_4'
-    }
-    return render_template('profile.html', **context)
+    context = {"task": "Задание_4"}
+    return render_template("profile.html", **context)
 
 
-@app.route('/squere/', methods=['GET', 'POST'])
+@app.route("/squere/", methods=["GET", "POST"])
 def squere():
     num = 4
-    return redirect(url_for("num_squere", number=int(num ** 2)))
+    return redirect(url_for("num_squere", number=int(num**2)))
 
 
-@app.route('/squere/<int:number>')
+@app.route("/squere/<int:number>")
 def num_squere(number: int):
     return str(number)
 
 
-@app.route('/form', methods=['GET', 'POST'])
+@app.route("/form", methods=["GET", "POST"])
 def form():
-    if request.method == 'POST':
+    if request.method == "POST":
         # Проверка данных формы
-        if not request.form['name']:
-            flash('Введите имя!', 'danger')
-            return redirect(url_for('form'))
+        if not request.form["name"]:
+            flash("Введите имя!", "danger")
+            return redirect(url_for("form"))
         # Обработка данных формы
-        flash('Форма успешно отправлена!', 'success')
-        return redirect(url_for('form'))
-    return render_template('form.html')
+        flash("Форма успешно отправлена!", "success")
+        return redirect(url_for("form"))
+    return render_template("form.html")
 
-@app.route('/cookies', methods=['GET', 'POST'])
+
+@app.route("/cookies", methods=["GET", "POST"])
 def cookies():
-    if request.method == 'POST':
-        context = {
-            'title':'main',
-            'name':request.form.get('username')
-        }
-        name = request.form.get('username')
-        response = make_response(render_template('index.html', **context))
+    if request.method == "POST":
+        context = {"title": "main", "name": request.form.get("username")}
+        name = request.form.get("username")
+        response = make_response(render_template("index.html", **context))
         response.set_cookie(name, "User")
         return response
-    context = {'title': 'cookies'}
-    return render_template('cookies.html', **context) 
-    # Ошибка при запуске 
+    context = {"title": "cookies"}
+    return render_template("cookies.html", **context)
+    # Ошибка при запуске
 
-@app.route('/delete_cookies', methods=['GET', 'POST'])
+
+@app.route("/delete_cookies", methods=["GET", "POST"])
 def delete_cookies():
-    context = {'title': 'cookies'}
-    response = make_response(render_template('index.html', **context))
+    context = {"title": "cookies"}
+    response = make_response(render_template("index.html", **context))
     response.set_cookie(*request.cookies, expires=0)
     return response
 
