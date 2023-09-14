@@ -8,9 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    {% for user in users %}
-        {{user.name}}
-        {{user.email}}
-    {% endfor %}
+    <h1>Список пользователей</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Email</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/add">Добавить пользователя</a>
 </body>
 </html>
