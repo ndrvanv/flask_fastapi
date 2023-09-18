@@ -49,4 +49,4 @@ async def get_users(request: Request):
     return templates.TemplateResponse("users.html", {"request": request, "users": users})
 
 if __name__ == "__main__":
-    uvicorn.run("task_6:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("task_hw_6_seminar:app", host="127.0.0.1", port=8000, reload=True)
